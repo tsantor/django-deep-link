@@ -1,7 +1,12 @@
+import logging
+
 import requests
 from django.conf import settings
 from django.core.cache import cache
 from ipware import get_client_ip
+
+logger = logging.getLogger(__name__)
+
 
 def get_ip_from_request(request):
     """
@@ -26,30 +31,36 @@ def get_ip_from_request(request):
         # We got the client's IP address
         return client_ip
         # if is_routable:
-            # The client's IP address is publicly routable on the Internet
+        # The client's IP address is publicly routable on the Internet
         # else:
-            # The client's IP address is private
+        # The client's IP address is private
     # else:
-        # Unable to get the client's IP address
+    # Unable to get the client's IP address
 
     # Order of precedence is (Public, Private, Loopback, None)
 
 
 def get_ip_address_information(ip_address):
     """Use 3rd party API to obtain Geolocation data from a given IP."""
-    if ip_address in settings.INTERNAL_IPS:
-        # print(settings.INTERNAL_IPS)
+    # if ip_address in settings.INTERNAL_IPS:
+    #     # print(settings.INTERNAL_IPS)
+    #     return {}
+
+    if cache.get(ip_address):
+        return cache.get(ip_address)
+
+    if not hasattr(settings, 'IPSTACK_ACCESS_KEY'):
+        logger.warn(
+            "No IPSTACK_ACCESS_KEY in settings - unable to get IP address geolocation data"
+        )
         return {}
 
-    if not cache.get(ip_address):
-        params = {
-            "fields": "main",
-            "hostname": 1,
-            "access_key": settings.IPSTACK_ACCESS_KEY,
-        }
-        r = requests.get(f"https://api.ipstack.com/{ip_address}", params=params)
-        r.raise_for_status()
-        cache.set(ip_address, r.json(), settings.IPSTACK_CACHE_TIME)
-        return r.json()
-
-    return cache.get(ip_address)
+    params = {
+        "fields": "main",
+        "hostname": 1,
+        "access_key": settings.IPSTACK_ACCESS_KEY,
+    }
+    r = requests.get(f"https://api.ipstack.com/{ip_address}", params=params)
+    r.raise_for_status()
+    cache.set(ip_address, r.json(), settings.IPSTACK_CACHE_TIME)
+    return r.json()
