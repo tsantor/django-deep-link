@@ -41,15 +41,15 @@ if sys.argv[-1] == 'tag':
     os.system("git push --tags")
     sys.exit()
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = open('README.md').read()
+history = open('HISTORY.md').read().replace('.. :changelog:', '')
 requirements = open('requirements.txt').readlines()
 
 setup(
     name='django-deep-link',
     version=version,
     description="""Your project description goes here""",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,  # + '\n\n' + history,
     author='Tim Santor',
     author_email='tsantor@xstudios.com',
     url='https://github.com/tsantor/django-deep-link',
