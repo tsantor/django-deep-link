@@ -1,0 +1,5 @@
+django-model-utils>=2.0
+# Additional requirements go here
+ua-parser==0.10.0
+user-agents==2.2.0
+django-ipware==3.0.2
