@@ -28,11 +28,8 @@ class AppDownloadView(DetailView):
         # Get ip address data
         ip_address, _ = get_client_ip(self.request)
         if ip_address:
-            return ip_address
-
-        get_ip_address_information = api_settings.IP_LOOKUP_HANDLER
-        ip_data = get_ip_address_information(ip_address)
-        if ip_address:
+            get_ip_address_information = api_settings.IP_GEO_HANDLER
+            ip_data = get_ip_address_information(ip_address)
             Visit.objects.create(
                 ip_address=ip_address,
                 ua_data=ua_data,
