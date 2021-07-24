@@ -50,6 +50,7 @@ setup(
     version=version,
     description="""Your project description goes here""",
     long_description=readme,  # + '\n\n' + history,
+    long_description_content_type='text/markdown',
     author='Tim Santor',
     author_email='tsantor@xstudios.com',
     url='https://github.com/tsantor/django-deep-link',
