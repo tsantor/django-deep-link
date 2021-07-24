@@ -3,7 +3,7 @@ from ipware import get_client_ip
 from user_agents import parse
 
 from .helpers.ua import ua_to_dict, get_platform_bools
-from .models import AppStore, Visit
+from .models import App, Visit
 from .settings import api_settings
 
 
@@ -13,11 +13,11 @@ class AppDownloadView(DetailView):
     installed app if it is.
     """
 
-    model = AppStore
+    model = App
     template_name = "django_deep_link/app.html"
 
     def get_object(self, queryset=None):
-        return AppStore.objects.get(code=self.kwargs.get("code"))
+        return App.objects.get(code=self.kwargs.get("code"))
 
     def get_context_data(self, **kwargs):
         # Get user agent data

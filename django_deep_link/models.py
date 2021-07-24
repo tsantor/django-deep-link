@@ -13,7 +13,8 @@ from django.urls import reverse
 from model_utils.models import TimeStampedModel
 
 
-class AppStore(TimeStampedModel):
+class App(TimeStampedModel):
+    """A deep link app."""
 
     code = UUIDField(default=uuid.uuid4, editable=False)
 
@@ -58,19 +59,21 @@ class Visit(TimeStampedModel):
 
     ip_address = CharField(blank=True, null=True, max_length=255, default="")
     ip_data = JSONField(
+        "IP geodata",
         blank=True,
         null=True,
         default=dict,
         help_text="Must be valid JSON",
     )
     ua_data = JSONField(
+        "User agent data",
         blank=True,
         null=True,
         default=dict,
         help_text="Must be valid JSON",
     )
 
-    deep_link = ForeignKey(AppStore, related_name="scans", on_delete=CASCADE)
+    deep_link = ForeignKey(App, related_name="scans", on_delete=CASCADE)
 
     @property
     def browser(self):

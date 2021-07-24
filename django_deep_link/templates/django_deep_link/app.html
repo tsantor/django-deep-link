@@ -160,5 +160,10 @@ function validateProtocol(url){
       return url;}
    return null;
 }
-window.onload = function() {window.top.location = validateProtocol("{{ object.app_store_url }}");};</script></body>
+{% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
+window.onload = function() {window.top.location = validateProtocol("{{ object.app_store_url }}");};
+{% elif is_mobile_android or is_tablet_android %}
+window.onload = function() {window.top.location = validateProtocol("{{ object.play_store_url }}");};
+{% endif %}
+</script></body>
 </html>

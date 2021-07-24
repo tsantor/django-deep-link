@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 
-from django_deep_link.models import AppStore, Visit
+from django_deep_link.models import App, Visit
 
 
-@admin.register(AppStore)
-class AppStoreAdmin(admin.ModelAdmin):
+@admin.register(App)
+class AppAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "android_package_name",
@@ -87,8 +87,7 @@ class VisitAdmin(admin.ModelAdmin):
     )
     date_hierarchy = "created"
     list_filter = (
-        # "qr_code__event__company",
-        # "qr_code",
+        "deep_link__name",
     )
 
     def has_add_permission(self, request):
