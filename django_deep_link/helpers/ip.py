@@ -3,55 +3,25 @@ import logging
 import requests
 from django.conf import settings
 from django.core.cache import cache
-from ipware import get_client_ip
 
 logger = logging.getLogger(__name__)
 
 
-def get_ip_from_request(request):
-    """
-    Get the client IP in order of priority.  This is not guaranteed and
-    can be easily spoofed.
-
-    https://en.wikipedia.org/wiki/X-Forwarded-For
-    """
-    # meta = request.META
-
-    # if "HTTP_X_FORWARDED_FOR" in meta and meta.get("HTTP_X_FORWARDED_FOR") != "":
-    #     # The first obtained IP address is the real IP address of the client
-    #     return meta.get("HTTP_X_FORWARDED_FOR").split(",")[0]
-    # elif "HTTP_X_REAL_IP" in meta and meta.get("HTTP_X_REAL_IP") != "":
-    #     return meta.get("HTTP_X_REAL_IP")
-    # elif "REMOTE_ADDR" in meta and meta.get("REMOTE_ADDR") != "":
-    #     return meta.get("REMOTE_ADDR")
-
-    # In a view or a middleware where the `request` object is available
-    client_ip, is_routable = get_client_ip(request)
-    if client_ip:
-        # We got the client's IP address
-        return client_ip
-        # if is_routable:
-        # The client's IP address is publicly routable on the Internet
-        # else:
-        # The client's IP address is private
-    # else:
-    # Unable to get the client's IP address
-
-    # Order of precedence is (Public, Private, Loopback, None)
-
-
-def get_ip_address_information(ip_address):
+def get_ip_geodata(ip_address):
     """Use 3rd party API to obtain Geolocation data from a given IP."""
-    # if ip_address in settings.INTERNAL_IPS:
-    #     # print(settings.INTERNAL_IPS)
-    #     return {}
+    print("THIS IS DEFAULT")
+    if ip_address in settings.INTERNAL_IPS:
+        logger.debug(
+            "Not looking up IP gelocation data, IP is is found in INTERNAL_IPS"
+        )
+        return {}
 
     if cache.get(ip_address):
         return cache.get(ip_address)
 
     if not hasattr(settings, 'IPSTACK_ACCESS_KEY'):
         logger.warn(
-            "No IPSTACK_ACCESS_KEY in settings - unable to get IP address geolocation data"
+            "Unable to lookup IP geolocation data, IPSTACK_ACCESS_KEY not in settings"
         )
         return {}
 

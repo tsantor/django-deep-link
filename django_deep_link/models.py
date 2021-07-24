@@ -83,7 +83,7 @@ class Visit(TimeStampedModel):
     @property
     def device(self):
         data = self.ua_data.get("device")
-        return data.get("brand", None) if data else None
+        return data.get("family", None) if data else None
 
     @property
     def platform(self):
