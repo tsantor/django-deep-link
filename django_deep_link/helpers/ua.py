@@ -1,6 +1,3 @@
-from user_agents import parse
-
-
 def get_ua_platform(user_agent):
     """Get platform (mobile, tablet, pc)."""
     if user_agent.is_mobile:
@@ -13,18 +10,7 @@ def get_ua_platform(user_agent):
         return "unknown"
 
 
-def get_ua_info(ua_string):
-    """Return User Agent data as a dict."""
-    user_agent = parse(ua_string)
-    return {
-        "browser": dict(user_agent.browser._asdict()),
-        "os": dict(user_agent.os._asdict()),
-        "device": dict(user_agent.device._asdict()),
-        "platform": get_ua_platform(user_agent),
-    }
-
-
-def get_ua_summary(user_agent):
+def get_platform_bools(user_agent):
     """Return if we're on a pc, mobile or tablet platform."""
 
     is_pc_mac = False
@@ -59,4 +45,14 @@ def get_ua_summary(user_agent):
         "is_mobile_android": is_mobile_android,
         "is_tablet_ios": is_tablet_ios,
         "is_tablet_android": is_tablet_android,
+    }
+
+
+def ua_to_dict(user_agent):
+    """Return User Agent data as a dict."""
+    return {
+        "browser": dict(user_agent.browser._asdict()),
+        "os": dict(user_agent.os._asdict()),
+        "device": dict(user_agent.device._asdict()),
+        "platform": get_ua_platform(user_agent),
     }

@@ -2,7 +2,7 @@ from django.views.generic import DetailView
 from ipware import get_client_ip
 from user_agents import parse
 
-from .helpers.ua import get_ua_info, get_ua_summary
+from .helpers.ua import ua_to_dict, get_platform_bools
 from .models import AppStore, Visit
 from .settings import api_settings
 
@@ -23,7 +23,7 @@ class AppDownloadView(DetailView):
         # Get user agent data
         ua_string = self.request.META.get("HTTP_USER_AGENT", None)
         user_agent = parse(ua_string)
-        ua_data = get_ua_info(ua_string) if ua_string else {}
+        ua_data = ua_to_dict(user_agent) if user_agent else {}
 
         # Get ip address data
         ip_address, _ = get_client_ip(self.request)
@@ -39,5 +39,6 @@ class AppDownloadView(DetailView):
 
         ctx = super().get_context_data(**kwargs)
         ctx["user_agent"] = user_agent
-        ctx.update(get_ua_summary(user_agent))
+        ctx.update(get_platform_bools(user_agent))
+        print(ctx)
         return ctx

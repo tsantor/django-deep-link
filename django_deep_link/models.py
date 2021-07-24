@@ -17,6 +17,8 @@ class AppStore(TimeStampedModel):
 
     code = UUIDField(default=uuid.uuid4, editable=False)
 
+    name = CharField(max_length=255, help_text="The application display name.")
+
     # Android related settings
     android_package_name = CharField(
         max_length=255,
@@ -35,7 +37,7 @@ class AppStore(TimeStampedModel):
         ordering = ["android_package_name", "apple_app_id"]
 
     def __str__(self):
-        return self.android_package_name or self.apple_app_id
+        return self.name
 
     @property
     def app_store_url(self):
