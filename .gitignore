@@ -45,4 +45,7 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+
+# Project Specific
 .python-version
+db.sqlite3
