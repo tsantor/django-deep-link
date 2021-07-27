@@ -1,0 +1,1 @@
+Based on the data that we get back from the browser we have a couple of methods for deducing whether a user has the app installed. If we think the user has the app, we'll try to open with the following URI Scheme.

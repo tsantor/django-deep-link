@@ -1,4 +1,4 @@
-/*global $, django, ace, hljs */
+/* global $, django, ace, hljs */
 'use strict';
 
 if (!$) {
@@ -50,14 +50,23 @@ var scans = {
         });
     },
     initHighlights: function () {
+
+        function prettifyJSON(string, indent = 2) {
+            var obj = JSON.parse(string);
+            return JSON.stringify(obj, null, indent);
+        }
+
         let elems = [];
-        let el = document.querySelectorAll('div.field-ua_data')[0]
-            .querySelectorAll('div.readonly')[0];
+        let el = document.querySelectorAll('div.field-ua_data')[0].
+            querySelectorAll('div.readonly')[0];
+
+        // el.innerHTML = "<pre>" + prettifyJSON(el.innerHTML) + "</pre>";
+
         el.style.padding = "6px";
         elems.push(el);
 
-        el = document.querySelectorAll('div.field-ip_data')[0]
-            .querySelectorAll('div.readonly')[0];
+        el = document.querySelectorAll('div.field-ip_data')[0].
+            querySelectorAll('div.readonly')[0];
         el.style.padding = "6px";
         elems.push(el);
 
@@ -71,13 +80,31 @@ var scans = {
         // document.getElementById('id_ip_data').setAttribute('data-editor', 'json');
         // document.getElementById('id_ip_data').setAttribute('data-gutter', true);
         // scans.aceEditor();
+    },
+    changeForm: function() {
+        // scans.initAce();
+        scans.initHighlights();
     }
 };
 
-window.onload = function () {
-    scans.initAce();
-    scans.initHighlights();
-};
 
-// document.addEventListener('DOMContentLoaded', (event) => {
-// });
+// (function($) {
+
+//     if (document.body.classList.contains('change-form')) {
+//         // HACK: Why do we need a timeout?
+//         setTimeout(function() {
+//             console.log('yo');
+//             // scans.initAce();
+//             scans.initHighlights();
+//         }, 100);
+//     }
+
+// })(django.jQuery);
+
+document.addEventListener('DOMContentLoaded', (e) => {
+
+    // if (document.body.classList.contains('change-form')) {
+    if (document.body.matches('.model-visit.change-form')) {
+        scans.changeForm();
+    }
+});

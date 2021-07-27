@@ -8,21 +8,21 @@ from django_deep_link.models import App, Visit
 class AppAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "android_package_name",
-        "apple_app_id",
+        "android_app",
+        "ios_app",
         "deep_link",
         "app_store_url",
         "play_store_url",
     )
     list_display_links = (
         "name",
-        "android_package_name",
-        "apple_app_id",
+        # "android_package_name",
+        # "ios_bundle_id",
     )
     search_fields = (
         "name",
-        "android_package_name",
-        "apple_app_id",
+        # "android_package_name",
+        # "ios_bundle_id",
     )
     readonly_fields = ("code",)
 
@@ -33,6 +33,7 @@ class AppAdmin(admin.ModelAdmin):
                 "fields": (
                     "code",
                     "name",
+                    # "default_url",
                 ),
             },
         ),
@@ -40,14 +41,26 @@ class AppAdmin(admin.ModelAdmin):
             "iOS",
             {
                 # "classes": ("collapse",),
-                "fields": ("apple_app_id",),
+                "fields": (
+                    "ios_url",
+                    "ios_app",
+                    "ios_uri_scheme",
+                    "ios_bundle_id",
+                    "ios_custom_url",
+                ),
             },
         ),
         (
             "Android",
             {
                 # "classes": ("collapse",),
-                "fields": ("android_package_name",),
+                "fields": (
+                    "android_url",
+                    "android_app",
+                    "android_uri_scheme",
+                    "android_package_name",
+                    "android_custom_url",
+                ),
             },
         ),
     )
@@ -66,6 +79,11 @@ class AppAdmin(admin.ModelAdmin):
             return mark_safe(
                 f'<a href="{obj.play_store_url}" target="_blank">Visit</a>'
             )
+
+    class Media:
+        js = (
+            "django_deep_link/js/app.js",
+        )
 
 
 @admin.register(Visit)
@@ -86,9 +104,7 @@ class VisitAdmin(admin.ModelAdmin):
         "deep_link",
     )
     date_hierarchy = "created"
-    list_filter = (
-        "deep_link__name",
-    )
+    list_filter = ("deep_link__name",)
 
     def has_add_permission(self, request):
         return False
@@ -104,6 +120,6 @@ class VisitAdmin(admin.ModelAdmin):
         }
         js = (
             "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js",
-            "django_deep_link/js/ace-builds/ace.js",
-            "django_deep_link/js/django_deep_links.js",
+            # "django_deep_link/js/ace-builds/ace.js",
+            "django_deep_link/js/scan.js",
         )
