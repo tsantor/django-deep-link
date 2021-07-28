@@ -38,7 +38,7 @@ class AppAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "iOS",
+            "iOS Mobile",
             {
                 # "classes": ("collapse",),
                 "fields": (
@@ -51,7 +51,7 @@ class AppAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "Android",
+            "Android Mobile",
             {
                 # "classes": ("collapse",),
                 "fields": (
@@ -63,6 +63,29 @@ class AppAdmin(admin.ModelAdmin):
                 ),
             },
         ),
+        (
+            "Mac Desktop",
+            {
+                # "classes": ("collapse",),
+                "fields": (
+                    "mac_app",
+                    "mac_uri_scheme",
+                    "mac_app_store_url",
+                ),
+            },
+        ),
+        (
+            "Windows Desktop",
+            {
+                # "classes": ("collapse",),
+                "fields": (
+                    "windows_app",
+                    "windows_uri_scheme",
+                    "windows_app_store_url",
+                    "windows_package_name",
+                ),
+            },
+        ),
     )
 
     def deep_link(self, obj):
@@ -71,19 +94,17 @@ class AppAdmin(admin.ModelAdmin):
         )
 
     def app_store_url(self, obj):
-        if obj.app_store_url:
-            return mark_safe(f'<a href="{obj.app_store_url}" target="_blank">Visit</a>')
+        if obj.get_app_store_url:
+            return mark_safe(f'<a href="{obj.get_app_store_url}" target="_blank">Visit</a>')
 
     def play_store_url(self, obj):
-        if obj.play_store_url:
+        if obj.get_play_store_url:
             return mark_safe(
-                f'<a href="{obj.play_store_url}" target="_blank">Visit</a>'
+                f'<a href="{obj.get_play_store_url}" target="_blank">Visit</a>'
             )
 
     class Media:
-        js = (
-            "django_deep_link/js/app.js",
-        )
+        js = ("django_deep_link/js/app.js",)
 
 
 @admin.register(Visit)

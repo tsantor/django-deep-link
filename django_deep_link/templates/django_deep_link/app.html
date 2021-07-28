@@ -140,12 +140,12 @@
             <div class="input-container">
                 <form class="form-get-the-app">
                     {% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
-                    <a href="{{ object.app_store_url }}" class="cta-button text-light">Get The App</a>
+                    <a href="{{ object.get_app_store_url }}" class="cta-button text-light">Get The App</a>
                     {% elif is_mobile_android or is_tablet_android %}
-                    <a href="{{ object.play_store_url }}" class="cta-button text-light">Get The App</a>
+                    <a href="{{ object.get_play_store_url }}" class="cta-button text-light">Get The App</a>
                     {% elif is_pc_windows %}
-                    <a href="{{ object.app_store_url }}" class="cta-button text-light">Get The App (iOS)</a>
-                    <a href="{{ object.play_store_url }}" class="cta-button text-light">Get The App (Android)</a>
+                    <a href="{{ object.get_app_store_url }}" class="cta-button text-light">Get The App (iOS)</a>
+                    <a href="{{ object.get_play_store_url }}" class="cta-button text-light">Get The App (Android)</a>
                     {% endif %}
                 </form>
             </div>
@@ -161,9 +161,11 @@ function validateProtocol(url){
    return null;
 }
 {% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
-window.onload = function() {window.top.location = validateProtocol("{{ object.app_store_url }}");};
+window.onload = function() {
+  window.top.location = validateProtocol("{{ object.get_app_store_url }}");
+};
 {% elif is_mobile_android or is_tablet_android %}
-window.onload = function() {window.top.location = validateProtocol("{{ object.play_store_url }}");};
+window.onload = function() {window.top.location = validateProtocol("{{ object.get_play_store_url }}");};
 {% endif %}
 </script></body>
 </html>
