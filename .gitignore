@@ -49,3 +49,5 @@ docs/_build
 # Project Specific
 .python-version
 db.sqlite3
+
+.DS_Store
