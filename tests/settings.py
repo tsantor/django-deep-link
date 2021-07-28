@@ -18,7 +18,7 @@ SECRET_KEY = "fqr1#2lon7^(e#_4vg2*zi#30y36#^46!k(-9hr2uu&j+@l0jx"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_deep_link',
-    
+
 
     # if your app has other dependencies that need to be added to the site
     # they should be added here

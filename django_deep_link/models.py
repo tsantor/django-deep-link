@@ -32,14 +32,14 @@ class iosMobile(Model):
     ios_uri_scheme = CharField(
         _("iOS URI Scheme"),
         max_length=255,
-        help_text="myapp://",
+        help_text=_("myapp://"),
         blank=True,
     )
 
     ios_bundle_id = CharField(
         _("iOS Bundle ID"),
         max_length=36,
-        help_text="i.e. - id1234567890",
+        help_text=_("i.e. - id1234567890"),
         blank=True,
     )
 
@@ -52,7 +52,6 @@ class iosMobile(Model):
     class Meta:
         abstract = True
 
-    @property
     def get_app_store_url(self):
         if self.ios_bundle_id:
             return f"https://apps.apple.com/app/{self.ios_bundle_id}"
@@ -65,8 +64,9 @@ class iosMobile(Model):
             elif self.ios_custom_url:
                 return self.ios_custom_url
             elif self.ios_bundle_id:
-                return self.get_app_store_url
+                return self.get_app_store_url()
 
+        # Fallback to iOS URL
         if self.ios_url:
             return self.ios_url
 
@@ -86,14 +86,14 @@ class AndroidMobile(Model):
     android_uri_scheme = CharField(
         _("Android URI Scheme"),
         max_length=255,
-        help_text="i.e. - myapp://",
+        help_text=_("i.e. - myapp://"),
         blank=True,
     )
 
     android_package_name = CharField(
         _("Android Package Name"),
         max_length=255,
-        help_text="i.e. - com.company.appname. If blank, users will be redirected to the Default URL",
+        help_text=_("i.e. - com.company.appname. If blank, users will be redirected to the Default URL"),
         blank=True,
     )
 
@@ -106,7 +106,6 @@ class AndroidMobile(Model):
     class Meta:
         abstract = True
 
-    @property
     def get_play_store_url(self):
         if self.android_package_name:
             return f"https://play.google.com/store/apps/details?id={self.android_package_name}"
@@ -119,7 +118,7 @@ class AndroidMobile(Model):
             elif self.android_custom_url:
                 return self.android_custom_url
             elif self.android_package_name:
-                return self.get_play_store_url
+                return self.get_play_store_url()
 
         # User can override default absolute URL if need be
         if self.android_url:
@@ -141,18 +140,21 @@ class MacDesktop(Model):
     mac_app_store_url = CharField(
         _("Mac App Store URL"),
         max_length=255,
-        help_text="A URL to fallback to when the app is not installed.",
+        help_text=_("A URL to fallback to when the app is not installed."),
         blank=True,
     )
 
     class Meta:
         abstract = True
 
-    @property
     def get_mac_app_store_url(self):
-        # if self.mac_app_store_url:
-        #     return f"https://apps.apple.com/app/{self.ios_bundle_id}"
-        raise NotImplementedError()
+        """Assume the same as iOS URL"""
+        # User has chosen to override the default URL
+        if self.mac_app_store_url:
+            return self.mac_app_store_url
+        # Fallback to iOS URL
+        if self.get_ios_url():
+            return self.get_ios_url()
 
 
 class WindowsDesktop(Model):
@@ -163,31 +165,30 @@ class WindowsDesktop(Model):
     windows_uri_scheme = CharField(
         _("Windows URI Scheme"),
         max_length=255,
-        help_text="i.e. - myapp://",
+        help_text=_("i.e. - myapp://"),
         blank=True,
     )
 
     windows_app_store_url = CharField(
         _("Windows App Store URL"),
         max_length=255,
-        help_text="A URL to fallback to when the app is not installed.",
+        help_text=_("A URL to fallback to when the app is not installed."),
         blank=True,
     )
 
     windows_package_name = CharField(
         _("Windows Package Family Name"),
         max_length=36,
-        # help_text="",
+        # help_text=_(""),
         blank=True,
     )
 
     class Meta:
         abstract = True
 
-    @property
     def get_windows_app_store_url(self):
-        # if self.windows_app_store_url:
-        raise NotImplementedError()
+        if self.windows_app_store_url:
+            return self.windows_app_store_url
 
 
 class App(iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model):
@@ -221,14 +222,14 @@ class Visit(TimeStampedModel):
 
     ip_address = CharField(blank=True, null=True, max_length=255, default="")
     ip_data = JSONField(
-        "IP geodata",
+        _("IP geodata"),
         blank=True,
         null=True,
         default=dict,
         help_text="Must be valid JSON",
     )
     ua_data = JSONField(
-        "User agent data",
+        _("User agent data"),
         blank=True,
         null=True,
         default=dict,

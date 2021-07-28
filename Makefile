@@ -17,7 +17,7 @@ createsuperuser:
 	python manage.py createsuperuser
 
 serve:
-	python manage.py runserver localhost:8080
+	python manage.py runserver 0.0.0.0:8080
 
 
 scratch: env reqs migrate createsuperuser serve

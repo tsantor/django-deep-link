@@ -1,171 +1,119 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-    <meta name="deepview-service" content="deepview-service">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700,300" rel="stylesheet" type="text/css">
-    <style>
-        body {
-            margin: 0;
-            word-wrap: break-word;
-        }
-        /* ============ Portrait ============ */
-        .main-image {
-            width: 125px;
-            height: 125px;
-            margin: 20vh auto 0 auto;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
+  <title>Get the {{ object.name }} App</title>
 
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: bottom center;
-        }
-        #content-container {
-            box-sizing:border-box;
-            padding: 24px;
-            margin:0 24px 0 24px;
-            background-color: #ffffff;
-        }
-        .app-title {
-            font-size: 14px;
-            text-align: center;
-            padding-bottom: 11px;
-            text-transform: uppercase;
-        }
-        .input-wrapper {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width:100%;
-            height:110px !important;
-            background-color: white;
-            -webkit-box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
-            -moz-box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
-            box-shadow: 0px -20px 20px -8px rgba(255,255,255,1);
-        }
-        .input-container {
-            width: 100%;
-            padding:0 24px;
-            text-align:center;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        .form-get-the-app {
-            text-align:center;
-            padding-top: 10px;
-        }
-        .form-get-the-app > input {
-            margin-right: 10px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            background-color: #FFFFFF;
-            border: 1px solid #979797;
-            border-radius: 2px;
-            font-size: 60px;
-            color: #CECECE;
-            line-height: 24px;
-            padding-left: 20px;
-        }
-        .cta-button {
-            display: block;
-            height: 62px;
-            line-height:62px;
-            background-color: #06122F;
-            border-radius: 2px;
-            font-size: 20px;
-            padding:0 20px;
-            margin: 0 20px;
-            color: #FFFFFF;
-            text-align: center;
-            text-decoration: none;
-        }
-        /* No data (portrait) */
-        @media only screen and (orientation: portrait) {
-            .card--no-data .main-image {
-
-            }
-        }
-        /* ============ Landscape ============ */
-        @media only screen and (orientation: landscape){
-            .main-image {
-                margin: 30px auto 0 auto;
-            }
-            #content-container {
-              padding: 10px 24px;
-            }
-            .input-wrapper {
-              height: 80px !important;
-            }
-            .input-container {
-              width: 50%;
-              margin: 0 auto;
-            }
-            .form-get-the-app {
-                padding-top:8px;
-            }
-            .cta-button {
-                height: 44px;
-                line-height: 44px;
-            }
-        }
-        /* Reusables */
-        .text-bold {
-            font-family: "Open Sans", Helvetica, serif;
-            font-weight: 700
-        }
-        .text-light {
-            font-family: "Open Sans", Helvetica, serif;
-            font-weight: 400;
-        }
-
-    </style>
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="card card--no-data center">
-        <div class="main-image"></div>
-        <div id="content-container">
-            <div class="app-title text-bold">{{ object }}
-            <br/>
-            {% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
-            Mac platform
-            {% elif is_mobile_android or is_tablet_android %}
-            Android platform
-            {% elif is_pc_windows %}
-            Windows platform
-            {% endif %}
-            </div>
-        </div>
-        <div class="input-wrapper">
-            <div class="input-container">
-                <form class="form-get-the-app">
-                    {% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
-                    <a href="{{ object.get_app_store_url }}" class="cta-button text-light">Get The App</a>
-                    {% elif is_mobile_android or is_tablet_android %}
-                    <a href="{{ object.get_play_store_url }}" class="cta-button text-light">Get The App</a>
-                    {% elif is_pc_windows %}
-                    <a href="{{ object.get_app_store_url }}" class="cta-button text-light">Get The App (iOS)</a>
-                    <a href="{{ object.get_play_store_url }}" class="cta-button text-light">Get The App (Android)</a>
-                    {% endif %}
-                </form>
-            </div>
-        </div>
-    </div>
-<script type="text/javascript">
-function validateProtocol(url){
-   var parser = document.createElement("a");
-   parser.href = url;
-   var protocol = parser.protocol.toLowerCase();
-   if ([ "javascript:", "vbscript:", "data:", "ftp:", ":", " "].indexOf(protocol) < 0) {
-      return url;}
-   return null;
-}
-{% if is_pc_mac or is_mobile_ios or is_tablet_ios %}
-window.onload = function() {
-  window.top.location = validateProtocol("{{ object.get_app_store_url }}");
-};
-{% elif is_mobile_android or is_tablet_android %}
-window.onload = function() {window.top.location = validateProtocol("{{ object.get_play_store_url }}");};
-{% endif %}
-</script></body>
+  <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+    <h1>{{ object.name }}</h1>
+
+    {% if is_mobile_ios or is_tablet_ios %}
+      <p>iOS Mobile/Tablet</p>
+      {% if object.get_app_store_url %}
+      <a class="btn btn-lg btn-primary" href="{{ object.get_app_store_url }}">Get The App</a>
+      {% else %}
+      <p class="alert alert-danger">No iOS App Available</p>
+      {% endif %}
+
+    {% elif is_mobile_android or is_tablet_android %}
+      <p>Android Mobile/Tablet</p>
+      {% if object.get_play_store_url %}
+      <a class="btn btn-lg btn-primary" href="{{ object.get_play_store_url }}">Get The App</a>
+      {% else %}
+      <p class="alert alert-danger">No Android App Available</p>
+      {% endif %}
+
+    {% elif is_pc_mac %}
+      <p>Mac Desktop</p>
+      {% if object.get_mac_app_store_url %}
+      <a class="btn btn-lg btn-primary" href="{{ object.get_mac_app_store_url }}">Get The App</a>
+      {% else %}
+      <p class="alert alert-danger">No Mac App Available</p>
+      {% endif %}
+
+    {% elif is_pc_windows %}
+      <p>Windows Desktop</p>
+      {% if object.get_windows_app_store_url %}
+      <a class="btn btn-lg btn-primary" href="{{ object.get_windows_app_store_url }}">Get The App</a>
+      {% else %}
+      <p class="alert alert-danger">No Windows App Available</p>
+      {% endif %}
+
+    {% else %}
+      <p class="alert alert-danger">Unknown Platform</p>
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+    function validateProtocol(url) {
+      var parser = document.createElement("a");
+      parser.href = url;
+      var protocol = parser.protocol.toLowerCase();
+      if (["javascript:", "vbscript:", "data:", "ftp:", ":", " "].indexOf(protocol) < 0) {
+        return url;
+      }
+      return null;
+    }
+    {% if is_mobile_ios or is_tablet_ios %}
+      console.log('iOS Mobile/Tablet');
+      {% if object.get_app_store_url %}
+      window.onload = function () {
+        console.log('Redirect to App Store: {{ object.get_app_store_url }}');
+        // window.top.location = validateProtocol("{{ object.get_app_store_url }}");
+      };
+      {% else %}
+      console.log('No iOS App Available');
+      {% endif %}
+
+    {% elif is_mobile_android or is_tablet_android %}
+      console.log('Android Mobile/Tablet');
+      {% if object.get_play_store_url %}
+      window.onload = function () {
+        console.log('Redirect to Play Store: {{ object.get_play_store_url }}');
+        // window.top.location = validateProtocol("{{ object.get_play_store_url }}");
+      };
+      {% else %}
+      console.log('No Android App Available');
+      {% endif %}
+
+    {% elif is_pc_mac %}
+      console.log('Mac Desktop');
+      {% if object.get_mac_app_store_url %}
+      window.onload = function () {
+        console.log('Redirect to App Store: {{ object.get_mac_app_store_url }}');
+        // window.top.location = validateProtocol("{{ object.get_mac_app_store_url }}");
+      };
+      {% else %}
+      console.log('No Mac App Available');
+      {% endif %}
+
+    {% elif is_pc_windows %}
+      console.log('Windows Desktop');
+      {% if object.get_windows_app_store_url %}
+      window.onload = function () {
+        console.log('Redirect to Windows App Store: {{ object.get_windows_app_store_url }}');
+        // window.top.location = validateProtocol("{{ object.get_windows_app_store_url }}");
+      };
+      {% else %}
+      console.log('No Windows App Available');
+      {% endif %}
+
+    {% else %}
+    console.log('Unknown Platform');
+    {% endif %}
+  </script>
+</body>
+
 </html>
