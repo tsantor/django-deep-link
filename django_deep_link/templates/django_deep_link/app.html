@@ -24,7 +24,7 @@
       {% if object.get_app_store_url %}
       <a class="btn btn-lg btn-primary" href="{{ object.get_app_store_url }}">Get The App</a>
       {% else %}
-      <p class="alert alert-danger">No iOS App Available</p>
+      <p class="alert alert-danger">iOS App Not Available</p>
       {% endif %}
 
     {% elif is_mobile_android or is_tablet_android %}
@@ -32,7 +32,7 @@
       {% if object.get_play_store_url %}
       <a class="btn btn-lg btn-primary" href="{{ object.get_play_store_url }}">Get The App</a>
       {% else %}
-      <p class="alert alert-danger">No Android App Available</p>
+      <p class="alert alert-danger">Android App Not Available</p>
       {% endif %}
 
     {% elif is_pc_mac %}
@@ -40,7 +40,7 @@
       {% if object.get_mac_app_store_url %}
       <a class="btn btn-lg btn-primary" href="{{ object.get_mac_app_store_url }}">Get The App</a>
       {% else %}
-      <p class="alert alert-danger">No Mac App Available</p>
+      <p class="alert alert-danger">Mac App Not Available</p>
       {% endif %}
 
     {% elif is_pc_windows %}
@@ -48,7 +48,7 @@
       {% if object.get_windows_app_store_url %}
       <a class="btn btn-lg btn-primary" href="{{ object.get_windows_app_store_url }}">Get The App</a>
       {% else %}
-      <p class="alert alert-danger">No Windows App Available</p>
+      <p class="alert alert-danger">Windows App Not Available</p>
       {% endif %}
 
     {% else %}
@@ -74,7 +74,7 @@
         // window.top.location = validateProtocol("{{ object.get_app_store_url }}");
       };
       {% else %}
-      console.log('No iOS App Available');
+      console.log('iOS App Not Available');
       {% endif %}
 
     {% elif is_mobile_android or is_tablet_android %}
@@ -85,7 +85,7 @@
         // window.top.location = validateProtocol("{{ object.get_play_store_url }}");
       };
       {% else %}
-      console.log('No Android App Available');
+      console.log('Android App Not Available');
       {% endif %}
 
     {% elif is_pc_mac %}
@@ -96,7 +96,7 @@
         // window.top.location = validateProtocol("{{ object.get_mac_app_store_url }}");
       };
       {% else %}
-      console.log('No Mac App Available');
+      console.log('Mac App Not Available');
       {% endif %}
 
     {% elif is_pc_windows %}
@@ -107,7 +107,7 @@
         // window.top.location = validateProtocol("{{ object.get_windows_app_store_url }}");
       };
       {% else %}
-      console.log('No Windows App Available');
+      console.log('Windows App Not Available');
       {% endif %}
 
     {% else %}

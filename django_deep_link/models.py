@@ -53,22 +53,8 @@ class iosMobile(Model):
         abstract = True
 
     def get_app_store_url(self):
-        if self.ios_bundle_id:
+        if self.ios_app and self.ios_bundle_id:
             return f"https://apps.apple.com/app/{self.ios_bundle_id}"
-
-    def get_ios_url(self):
-        """Based on the configuration, return the correct redirect URL."""
-        if self.ios_app:
-            if self.ios_uri_scheme:
-                return self.ios_uri_scheme
-            elif self.ios_custom_url:
-                return self.ios_custom_url
-            elif self.ios_bundle_id:
-                return self.get_app_store_url()
-
-        # Fallback to iOS URL
-        if self.ios_url:
-            return self.ios_url
 
 
 class AndroidMobile(Model):
@@ -93,7 +79,9 @@ class AndroidMobile(Model):
     android_package_name = CharField(
         _("Android Package Name"),
         max_length=255,
-        help_text=_("i.e. - com.company.appname. If blank, users will be redirected to the Default URL"),
+        help_text=_(
+            "i.e. - com.company.appname. If blank, users will be redirected to the Default URL"
+        ),
         blank=True,
     )
 
@@ -107,22 +95,8 @@ class AndroidMobile(Model):
         abstract = True
 
     def get_play_store_url(self):
-        if self.android_package_name:
+        if self.android_app and self.android_package_name:
             return f"https://play.google.com/store/apps/details?id={self.android_package_name}"
-
-    def get_android_url(self):
-        """Based on the configuration, return the correct redirect URL."""
-        if self.android_app:
-            if self.android_uri_scheme:
-                return self.android_uri_scheme
-            elif self.android_custom_url:
-                return self.android_custom_url
-            elif self.android_package_name:
-                return self.get_play_store_url()
-
-        # User can override default absolute URL if need be
-        if self.android_url:
-            return self.android_url
 
 
 class MacDesktop(Model):
@@ -148,13 +122,8 @@ class MacDesktop(Model):
         abstract = True
 
     def get_mac_app_store_url(self):
-        """Assume the same as iOS URL"""
-        # User has chosen to override the default URL
-        if self.mac_app_store_url:
+        if self.mac_app and self.mac_app_store_url:
             return self.mac_app_store_url
-        # Fallback to iOS URL
-        if self.get_ios_url():
-            return self.get_ios_url()
 
 
 class WindowsDesktop(Model):
@@ -187,11 +156,13 @@ class WindowsDesktop(Model):
         abstract = True
 
     def get_windows_app_store_url(self):
-        if self.windows_app_store_url:
+        if self.windows_app and self.windows_app_store_url:
             return self.windows_app_store_url
 
 
-class App(iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model):
+class App(
+    iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model
+):
     """A deep link app."""
 
     code = UUIDField(default=uuid.uuid4, editable=False)
