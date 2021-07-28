@@ -25,6 +25,7 @@
       <a class="btn btn-lg btn-primary" href="{{ object.get_app_store_url }}">Get The App</a>
       {% else %}
       <p class="alert alert-danger">iOS App Not Available</p>
+      {{ object.get_ios_redirect_url }}
       {% endif %}
 
     {% elif is_mobile_android or is_tablet_android %}
@@ -33,6 +34,7 @@
       <a class="btn btn-lg btn-primary" href="{{ object.get_play_store_url }}">Get The App</a>
       {% else %}
       <p class="alert alert-danger">Android App Not Available</p>
+      {{ object.get_android_redirect_url }}
       {% endif %}
 
     {% elif is_pc_mac %}
@@ -68,10 +70,10 @@
     }
     {% if is_mobile_ios or is_tablet_ios %}
       console.log('iOS Mobile/Tablet');
-      {% if object.get_app_store_url %}
+      {% if object.get_ios_redirect_url %}
       window.onload = function () {
-        console.log('Redirect to App Store: {{ object.get_app_store_url }}');
-        // window.top.location = validateProtocol("{{ object.get_app_store_url }}");
+        console.log('Redirect to: {{ object.get_ios_redirect_url }}');
+        // window.top.location = validateProtocol("{{ object.get_ios_redirect_url }}");
       };
       {% else %}
       console.log('iOS App Not Available');
@@ -79,10 +81,10 @@
 
     {% elif is_mobile_android or is_tablet_android %}
       console.log('Android Mobile/Tablet');
-      {% if object.get_play_store_url %}
+      {% if object.get_android_redirect_url %}
       window.onload = function () {
-        console.log('Redirect to Play Store: {{ object.get_play_store_url }}');
-        // window.top.location = validateProtocol("{{ object.get_play_store_url }}");
+        console.log('Redirect to: {{ object.get_android_redirect_url }}');
+        // window.top.location = validateProtocol("{{ object.get_android_redirect_url }}");
       };
       {% else %}
       console.log('Android App Not Available');
@@ -92,7 +94,7 @@
       console.log('Mac Desktop');
       {% if object.get_mac_app_store_url %}
       window.onload = function () {
-        console.log('Redirect to App Store: {{ object.get_mac_app_store_url }}');
+        console.log('Redirect to: {{ object.get_mac_app_store_url }}');
         // window.top.location = validateProtocol("{{ object.get_mac_app_store_url }}");
       };
       {% else %}
@@ -103,7 +105,7 @@
       console.log('Windows Desktop');
       {% if object.get_windows_app_store_url %}
       window.onload = function () {
-        console.log('Redirect to Windows App Store: {{ object.get_windows_app_store_url }}');
+        console.log('Redirect to: {{ object.get_windows_app_store_url }}');
         // window.top.location = validateProtocol("{{ object.get_windows_app_store_url }}");
       };
       {% else %}

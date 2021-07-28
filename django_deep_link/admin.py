@@ -10,6 +10,8 @@ class AppAdmin(admin.ModelAdmin):
         "name",
         "android_app",
         "ios_app",
+        "mac_app",
+        "windows_app",
         "deep_link",
         "app_store_url",
         "play_store_url",

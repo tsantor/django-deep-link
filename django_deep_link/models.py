@@ -23,7 +23,7 @@ class iosMobile(Model):
     ios_url = URLField(
         _("iOS URL"),
         blank=True,
-        help_text=_("If blank, users will be redirected to the Default URL."),
+        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -56,6 +56,13 @@ class iosMobile(Model):
         if self.ios_app and self.ios_bundle_id:
             return f"https://apps.apple.com/app/{self.ios_bundle_id}"
 
+    def get_ios_redirect_url(self):
+        """Return a redirect URL."""
+        if not self.ios_app and self.ios_url:
+            return self.ios_url
+        if self.ios_app and self.ios_custom_url:
+            return self.ios_custom_url
+
 
 class AndroidMobile(Model):
     """Android Mobile related settings."""
@@ -63,7 +70,7 @@ class AndroidMobile(Model):
     android_url = URLField(
         _("Android URL"),
         blank=True,
-        help_text=_("If blank, users will be redirected to the Default URL."),
+        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -98,6 +105,14 @@ class AndroidMobile(Model):
         if self.android_app and self.android_package_name:
             return f"https://play.google.com/store/apps/details?id={self.android_package_name}"
 
+    def get_android_redirect_url(self):
+        """Return a redirect URL."""
+        if not self.android_app and self.android_url:
+            return self.android_url
+        if self.android_app and self.android_custom_url:
+            return self.android_custom_url
+
+
 
 class MacDesktop(Model):
     """Mac Desktop related settings."""
@@ -111,7 +126,7 @@ class MacDesktop(Model):
         blank=True,
     )
 
-    mac_app_store_url = CharField(
+    mac_app_store_url = URLField(
         _("Mac App Store URL"),
         max_length=255,
         help_text=_("A URL to fallback to when the app is not installed."),
@@ -138,7 +153,7 @@ class WindowsDesktop(Model):
         blank=True,
     )
 
-    windows_app_store_url = CharField(
+    windows_app_store_url = URLField(
         _("Windows App Store URL"),
         max_length=255,
         help_text=_("A URL to fallback to when the app is not installed."),
@@ -172,7 +187,7 @@ class App(
     default_url = URLField(
         _("Default URL"),
         help_text=_(
-            "Your fallback URL for mobile devices that do not have a specified redirect."
+            "Your fallback URL for platforms that do not have a specified redirect."
         ),
     )
 
