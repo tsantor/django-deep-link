@@ -39,7 +39,7 @@ class iosMobile(Model):
     ios_bundle_id = CharField(
         _("iOS Bundle ID"),
         max_length=36,
-        help_text="e.g. - id1234567890",
+        help_text="i.e. - id1234567890",
         blank=True,
     )
 
@@ -86,14 +86,14 @@ class AndroidMobile(Model):
     android_uri_scheme = CharField(
         _("Android URI Scheme"),
         max_length=255,
-        help_text="e.g. - myapp://",
+        help_text="i.e. - myapp://",
         blank=True,
     )
 
     android_package_name = CharField(
         _("Android Package Name"),
         max_length=255,
-        help_text="e.g. - com.company.appname. If blank, users will be redirected to the Default URL",
+        help_text="i.e. - com.company.appname. If blank, users will be redirected to the Default URL",
         blank=True,
     )
 
@@ -134,7 +134,7 @@ class MacDesktop(Model):
     mac_uri_scheme = CharField(
         _("Mac URI Scheme"),
         max_length=255,
-        help_text="e.g. - myapp://",
+        help_text="i.e. - myapp://",
         blank=True,
     )
 
@@ -163,7 +163,7 @@ class WindowsDesktop(Model):
     windows_uri_scheme = CharField(
         _("Windows URI Scheme"),
         max_length=255,
-        help_text="e.g. - myapp://",
+        help_text="i.e. - myapp://",
         blank=True,
     )
 
