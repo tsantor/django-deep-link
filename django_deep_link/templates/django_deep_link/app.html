@@ -73,7 +73,7 @@
       {% if object.get_ios_redirect_url %}
       window.onload = function () {
         console.log('Redirect to: {{ object.get_ios_redirect_url }}');
-        // window.top.location = validateProtocol("{{ object.get_ios_redirect_url }}");
+        window.top.location = validateProtocol("{{ object.get_ios_redirect_url }}");
       };
       {% else %}
       console.log('iOS App Not Available');
@@ -84,7 +84,7 @@
       {% if object.get_android_redirect_url %}
       window.onload = function () {
         console.log('Redirect to: {{ object.get_android_redirect_url }}');
-        // window.top.location = validateProtocol("{{ object.get_android_redirect_url }}");
+        window.top.location = validateProtocol("{{ object.get_android_redirect_url }}");
       };
       {% else %}
       console.log('Android App Not Available');
@@ -95,7 +95,7 @@
       {% if object.get_mac_app_store_url %}
       window.onload = function () {
         console.log('Redirect to: {{ object.get_mac_app_store_url }}');
-        // window.top.location = validateProtocol("{{ object.get_mac_app_store_url }}");
+        window.top.location = validateProtocol("{{ object.get_mac_app_store_url }}");
       };
       {% else %}
       console.log('Mac App Not Available');
@@ -106,7 +106,7 @@
       {% if object.get_windows_app_store_url %}
       window.onload = function () {
         console.log('Redirect to: {{ object.get_windows_app_store_url }}');
-        // window.top.location = validateProtocol("{{ object.get_windows_app_store_url }}");
+        window.top.location = validateProtocol("{{ object.get_windows_app_store_url }}");
       };
       {% else %}
       console.log('Windows App Not Available');
