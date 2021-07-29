@@ -2,19 +2,10 @@ from django.views.generic import DetailView
 from ipware import get_client_ip
 from user_agents import parse
 
-from .helpers.ua import ua_to_dict, get_platform_bools
+from .helpers import get_querystring_as_dict
+from .helpers.ua import get_platform_bools, ua_to_dict
 from .models import App, Visit
 from .settings import api_settings
-
-
-
-def get_querystring_as_dict(request):
-    from urllib.parse import parse_qs
-
-    query_str = request.META.get("QUERY_STRING", None)
-    if query_str:
-        return parse_qs(query_str)
-    return {}
 
 
 class AppDownloadView(DetailView):
@@ -51,5 +42,4 @@ class AppDownloadView(DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx["user_agent"] = user_agent
         ctx.update(get_platform_bools(user_agent))
-        print(ctx)
         return ctx

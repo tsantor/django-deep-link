@@ -26,3 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Capture query params in visit
+
+
+## [0.2.5] - 2021-07-29
+
+### Changed
+- Removed print statement
+- Moved `get_querystring_as_dict` into `helpers`

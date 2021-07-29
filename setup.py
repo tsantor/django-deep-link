@@ -42,14 +42,14 @@ if sys.argv[-1] == 'tag':
     sys.exit()
 
 readme = open('README.md').read()
-history = open('HISTORY.md').read().replace('.. :changelog:', '')
+history = open('HISTORY.md').read()
 requirements = open('requirements.txt').readlines()
 
 setup(
     name='django-deep-link',
     version=version,
     description="""Your project description goes here""",
-    long_description=readme,  # + '\n\n' + history,
+    long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     author='Tim Santor',
     author_email='tsantor@xstudios.com',
