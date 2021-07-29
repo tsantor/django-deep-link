@@ -97,12 +97,12 @@ class AppAdmin(admin.ModelAdmin):
 
     def app_store_url(self, obj):
         if obj.get_app_store_url:
-            return mark_safe(f'<a href="{obj.get_app_store_url}" target="_blank">Visit</a>')
+            return mark_safe(f'<a href="{obj.get_app_store_url()}" target="_blank">Visit</a>')
 
     def play_store_url(self, obj):
         if obj.get_play_store_url:
             return mark_safe(
-                f'<a href="{obj.get_play_store_url}" target="_blank">Visit</a>'
+                f'<a href="{obj.get_play_store_url()}" target="_blank">Visit</a>'
             )
 
     class Media:
