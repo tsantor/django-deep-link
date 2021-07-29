@@ -7,6 +7,16 @@ from .models import App, Visit
 from .settings import api_settings
 
 
+
+def get_querystring_as_dict(request):
+    from urllib.parse import parse_qs
+
+    query_str = request.META.get("QUERY_STRING", None)
+    if query_str:
+        return parse_qs(query_str)
+    return {}
+
+
 class AppDownloadView(DetailView):
     """
     Shows an app download page if app not installed or redirects to the
@@ -34,6 +44,7 @@ class AppDownloadView(DetailView):
                 ip_address=ip_address,
                 ua_data=ua_data,
                 ip_data=ip_data,
+                query_data=get_querystring_as_dict(self.request),
                 deep_link=self.object,
             )
 

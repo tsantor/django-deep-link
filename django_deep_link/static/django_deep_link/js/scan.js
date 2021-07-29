@@ -27,6 +27,11 @@ var scans = {
         el.style.padding = "6px";
         elems.push(el);
 
+        el = document.querySelectorAll('div.field-query_data')[0].
+            querySelectorAll('div.readonly')[0];
+        el.style.padding = "6px";
+        elems.push(el);
+
         elems.forEach((el) => {
             hljs.highlightElement(el);
         });

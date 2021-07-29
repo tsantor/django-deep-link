@@ -125,7 +125,7 @@ class MacDesktop(Model):
     mac_uri_scheme = CharField(
         _("Mac URI Scheme"),
         max_length=255,
-        help_text="i.e. - myapp://",
+        help_text=_("i.e. - myapp://"),
         blank=True,
     )
 
@@ -213,16 +213,17 @@ class Visit(TimeStampedModel):
     ip_data = JSONField(
         _("IP geodata"),
         blank=True,
-        null=True,
         default=dict,
-        help_text="Must be valid JSON",
     )
     ua_data = JSONField(
         _("User agent data"),
         blank=True,
-        null=True,
         default=dict,
-        help_text="Must be valid JSON",
+    )
+    query_data = JSONField(
+        _("Query data"),
+        blank=True,
+        default=dict,
     )
 
     deep_link = ForeignKey(App, related_name="scans", on_delete=CASCADE)

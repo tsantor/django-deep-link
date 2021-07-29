@@ -6,5 +6,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('django_deep_link.urls', namespace='django_deep_link')),
+    url(r'^', include('django_deep_link.urls')),
 ]

@@ -35,7 +35,7 @@ from django_deep_link import urls as django_deep_link_urls
 
 urlpatterns = [
     ...
-    path(r"", include(django_deep_link_urls)),
+    path(r"", include(django_deep_link_urls, namespace='django-deep-link')),
     ...
 ]
 ```

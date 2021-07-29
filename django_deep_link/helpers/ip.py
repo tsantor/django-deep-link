@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def get_ip_geodata(ip_address):
     """Use 3rd party API to obtain Geolocation data from a given IP."""
-    print("THIS IS DEFAULT")
+
     if ip_address in settings.INTERNAL_IPS:
         logger.debug(
             "Not looking up IP gelocation data, IP is is found in INTERNAL_IPS"

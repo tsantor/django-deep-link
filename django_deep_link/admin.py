@@ -124,6 +124,7 @@ class VisitAdmin(admin.ModelAdmin):
         "ip_address",
         "ip_data",
         "ua_data",
+        "query_data",
         "deep_link",
     )
     date_hierarchy = "created"
