@@ -23,7 +23,9 @@ class iosMobile(Model):
     ios_url = URLField(
         _("iOS URL"),
         blank=True,
-        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
+        help_text=_(
+            "Custom app download/coming soon page. If blank, users will not be redirected."
+        ),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -70,7 +72,9 @@ class AndroidMobile(Model):
     android_url = URLField(
         _("Android URL"),
         blank=True,
-        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
+        help_text=_(
+            "Custom app download/coming soon page. If blank, users will not be redirected."
+        ),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -111,7 +115,6 @@ class AndroidMobile(Model):
             return self.android_url
         if self.android_app and self.android_custom_url:
             return self.android_custom_url
-
 
 
 class MacDesktop(Model):
@@ -223,6 +226,9 @@ class Visit(TimeStampedModel):
     )
 
     deep_link = ForeignKey(App, related_name="scans", on_delete=CASCADE)
+
+    class Meta:
+        default_permissions = ("delete", "view",)
 
     @property
     def browser(self):
