@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import AppDownloadView
 
-app_name = "django-deep-link"
+app_name = "django_deep_link"
 
 urlpatterns = [
-    path("deep-link/<uuid:code>/", AppDownloadView.as_view(), name="deep-link"),
+    path("<uuid:code>/", AppDownloadView.as_view(), name="deep-link"),
 ]

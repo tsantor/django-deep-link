@@ -14,3 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Broken app store links in app listing
+
+
+## [0.2.3] - 2021-07-29
+
+### Changed
+- Don't assume url pattern
