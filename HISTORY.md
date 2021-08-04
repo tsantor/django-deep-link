@@ -33,3 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Removed print statement
 - Moved `get_querystring_as_dict` into `helpers`
+
+## [0.2.6] - 2021-08-04
+
+### Fixed
+- Added missing migrations.
