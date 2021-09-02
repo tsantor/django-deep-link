@@ -19,7 +19,7 @@ def get_ip_geodata(ip_address):
     if cache.get(ip_address):
         return cache.get(ip_address)
 
-    if not hasattr(settings, 'IPSTACK_ACCESS_KEY'):
+    if not hasattr(settings, "IPSTACK_ACCESS_KEY"):
         logger.warn(
             "Unable to lookup IP geolocation data, IPSTACK_ACCESS_KEY not in settings"
         )

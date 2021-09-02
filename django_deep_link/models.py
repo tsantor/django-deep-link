@@ -229,7 +229,10 @@ class Visit(TimeStampedModel):
     deep_link = ForeignKey(App, related_name="scans", on_delete=CASCADE)
 
     class Meta:
-        default_permissions = ("delete", "view",)
+        default_permissions = (
+            "delete",
+            "view",
+        )
 
     @property
     def browser(self):
