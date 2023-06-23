@@ -1,6 +1,6 @@
 import uuid
+from zoneinfo import ZoneInfo
 
-import pytz
 from django.conf import settings
 from django.db.models import (
     CASCADE,
@@ -14,7 +14,8 @@ from django.db.models import (
 from django.db.models.fields import BooleanField
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from model_utils.models import TimeStampedModel
+
+from django_deep_link.mixins import TimeStampedModel
 
 
 class iosMobile(Model):
@@ -229,7 +230,10 @@ class Visit(TimeStampedModel):
     deep_link = ForeignKey(App, related_name="scans", on_delete=CASCADE)
 
     class Meta:
-        default_permissions = ("delete", "view",)
+        default_permissions = (
+            "delete",
+            "view",
+        )
 
     @property
     def browser(self):
@@ -252,6 +256,6 @@ class Visit(TimeStampedModel):
         return platform.title() if platform else None
 
     def __str__(self):
-        tz = pytz.timezone(settings.TIME_ZONE)
+        tz = ZoneInfo(settings.TIME_ZONE)
         dt = self.created.astimezone(tz)
         return f"{dt.strftime('%a %b %d, %Y at %-I:%M:%S %p')} from {self.ip_address}"

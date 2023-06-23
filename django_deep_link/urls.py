@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import AppDownloadView
 
 app_name = "django-deep-link"

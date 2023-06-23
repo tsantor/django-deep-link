@@ -97,7 +97,9 @@ class AppAdmin(admin.ModelAdmin):
 
     def app_store_url(self, obj):
         if obj.get_app_store_url:
-            return mark_safe(f'<a href="{obj.get_app_store_url()}" target="_blank">Visit</a>')
+            return mark_safe(
+                f'<a href="{obj.get_app_store_url()}" target="_blank">Visit</a>'
+            )
 
     def play_store_url(self, obj):
         if obj.get_play_store_url:
@@ -118,7 +120,7 @@ class VisitAdmin(admin.ModelAdmin):
         "os",
         "device",
         "platform",
-        "created",
+        "created_at",
     )
     readonly_fields = (
         "ip_address",
@@ -127,7 +129,7 @@ class VisitAdmin(admin.ModelAdmin):
         "query_data",
         "deep_link",
     )
-    date_hierarchy = "created"
+    date_hierarchy = "created_at"
     list_filter = ("deep_link__name",)
 
     def has_add_permission(self, request):

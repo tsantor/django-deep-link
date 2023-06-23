@@ -21,7 +21,7 @@ Add it to your `INSTALLED_APPS`:
 ```python
 INSTALLED_APPS = (
     ...
-    'django_deep_link.apps.DjangoDeepLinkConfig',
+    'django_deep_link',
     ...
 )
 ```
@@ -74,21 +74,22 @@ If not specified, the `'IP_GEO_HANDLER'` setting defaults to the geodata provide
 
 * TODO
 
-## Running Tests
+## Development
 
+    make env
+    make reqs
+    pip install -e .
 
-Does the code actually work?
+## Testing
+Project is at **76%** test coverage.
 
-```bash
-source <YOURVIRTUALENV>/bin/activate
-(myenv) $ pip install tox
-(myenv) $ tox
-```
+    python3 runtests.py
 
+    python3 -m pytest -v
+    tox
 
-## Development commands
+    # Run coverage
+    pytest --cov-report html --cov-report term --cov=tests/
 
-```bash
-pip install -r requirements_dev.txt
-invoke -l
-```
+## Issues
+If you experience any issues, please create an [issue](https://bitbucket.org/tsantor/django-deep-link/issues) on Bitbucket.
