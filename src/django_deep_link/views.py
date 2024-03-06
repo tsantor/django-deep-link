@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from user_agents import parse
 
@@ -17,7 +18,8 @@ class AppDownloadView(DetailView):
     template_name = "django_deep_link/app.html"
 
     def get_object(self, queryset=None):
-        return App.objects.get(code=self.kwargs.get("code"))
+        # return App.objects.get(code=self.kwargs.get("code"))
+        return get_object_or_404(self.model, code=self.kwargs.get("code"))
 
     def get_context_data(self, **kwargs):
 
