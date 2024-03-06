@@ -1,7 +1,7 @@
-
 # Django Deep Link
 
 ## Overview
+
 Simple app to get mobile app deep linking in place with basic tracking.
 
 ## Documentation
@@ -27,7 +27,6 @@ INSTALLED_APPS = (
 ```
 
 Add Django Deep Link's URL patterns:
-
 
 ```python
 from django_deep_link import urls as django_deep_link_urls
@@ -72,7 +71,7 @@ If not specified, the `'IP_GEO_HANDLER'` setting defaults to the geodata provide
 
 ## Features
 
-* TODO
+- TODO
 
 ## Development
 
@@ -81,6 +80,7 @@ If not specified, the `'IP_GEO_HANDLER'` setting defaults to the geodata provide
     pip install -e .
 
 ## Testing
+
 Project is at **76%** test coverage.
 
     python3 runtests.py
@@ -92,4 +92,5 @@ Project is at **76%** test coverage.
     pytest --cov-report html --cov-report term --cov=tests/
 
 ## Issues
+
 If you experience any issues, please create an [issue](https://bitbucket.org/tsantor/django-deep-link/issues) on Bitbucket.
