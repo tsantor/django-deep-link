@@ -3,8 +3,5 @@ wheel==0.42.0
 build==1.1.1
 pre-commit==3.6.2
 
-# Bare minimum requirements
-django==4.2.9
-
 # X Studios
 pip-freezer==0.3.5

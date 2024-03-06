@@ -239,5 +239,5 @@ class Visit(TimeStampedModel):
 
     def __str__(self):
         tz = ZoneInfo(settings.TIME_ZONE)
-        dt = self.created.astimezone(tz)
+        dt = self.created_at.astimezone(tz)
         return f"{dt.strftime('%a %b %d, %Y at %-I:%M:%S %p')} from {self.ip_address}"

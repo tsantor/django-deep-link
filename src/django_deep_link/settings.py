@@ -3,7 +3,7 @@ Settings for Deep Link are all namespaced in the DEEP_LINK setting.
 For example your project's `settings.py` file might look like this:
 
 DEEP_LINK = {
-    'IP_GEO_HANDLER': 'django_deep_link.helpers.ip.get_ip_geodata'
+    'IP_GEO_HANDLER': 'django_deep_link.helpers.ip.get_ip_info'
 }
 
 This module provides the `api_setting` object, that is used to access
@@ -15,7 +15,7 @@ from django.conf import settings
 from django.test.signals import setting_changed
 from django.utils.module_loading import import_string
 
-DEFAULTS = {"IP_GEO_HANDLER": "django_deep_link.helpers.ip.get_ip_geodata"}
+DEFAULTS = {"IP_GEO_HANDLER": "django_deep_link.helpers.ip.get_ip_info"}
 
 
 # List of settings that may be in string import notation.

@@ -1,11 +1,10 @@
 from django.views.generic import DetailView
-from ipware import get_client_ip
 from user_agents import parse
 
-from .helpers import get_querystring_as_dict
-from .helpers.ua import get_platform_bools, ua_to_dict
+from .helpers.ip import get_ip, get_ip_info
+from .helpers.ua import get_platform_bools, get_ua, get_ua_info
+from .helpers.url import get_querystring_as_dict
 from .models import App, Visit
-from .settings import api_settings
 
 
 class AppDownloadView(DetailView):
@@ -21,24 +20,19 @@ class AppDownloadView(DetailView):
         return App.objects.get(code=self.kwargs.get("code"))
 
     def get_context_data(self, **kwargs):
-        # Get user agent data
-        ua_string = self.request.headers.get("user-agent", None)
-        user_agent = parse(ua_string)
-        ua_data = ua_to_dict(user_agent) if user_agent else {}
 
-        # Get ip address data
-        ip_address, _ = get_client_ip(self.request)
-        if ip_address:
-            get_ip_address_information = api_settings.IP_GEO_HANDLER
-            ip_data = get_ip_address_information(ip_address)
-            Visit.objects.create(
-                ip_address=ip_address,
-                ua_data=ua_data,
-                ip_data=ip_data,
-                query_data=get_querystring_as_dict(self.request),
-                deep_link=self.object,
-            )
+        ip = get_ip(self.request)
+        user_agent = get_ua(self.request)
 
+        Visit.objects.create(
+            ip_address=ip,
+            ua_data=get_ua_info(user_agent),
+            ip_data=get_ip_info(ip),
+            query_data=get_querystring_as_dict(self.request),
+            deep_link=self.object,
+        )
+
+        user_agent = parse(user_agent)
         ctx = super().get_context_data(**kwargs)
         ctx["user_agent"] = user_agent
         ctx.update(get_platform_bools(user_agent))

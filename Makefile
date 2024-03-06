@@ -31,9 +31,10 @@ env:  ## Create virtual environment
 
 reqs:  ## Install requirements
 	python3 -m pip install -U pip && \
-		python -m pip install -r requirements_dev.txt && \
-		python -m pip install -r requirements_test.txt && \
-		python -m pip install -r requirements.txt
+		python3 -m pip install -r requirements_dev.txt && \
+		python3 -m pip install -r requirements_test.txt && \
+		python3 -m pip install -r requirements.txt && \
+		pre-commit install
 
 env_remove:  ## Remove virtual environment
 	pyenv uninstall ${venv}
@@ -57,7 +58,7 @@ migrate:  ## Apply migrations
 	python3 manage.py migrate
 
 serve:  ## Run server
-	python3 manage.py runserver 127.0.0.1:8000
+	python3 manage.py runserver 0.0.0.0:8000
 
 show_urls:  ## show urls
 	python3 manage.py show_urls
