@@ -1,4 +1,4 @@
-ua-parser
-user-agents
-django-ipware
-requests
+ua-parser==0.18.0
+user-agents==2.2.0
+django-ipware==6.0.4
+requests==2.31.0

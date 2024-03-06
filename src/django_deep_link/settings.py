@@ -10,6 +10,7 @@ This module provides the `api_setting` object, that is used to access
 Deep Link settings, checking for user settings first, then falling
 back to the defaults.
 """
+
 from django.conf import settings
 from django.test.signals import setting_changed
 from django.utils.module_loading import import_string
@@ -48,9 +49,7 @@ def import_from_string(val, setting_name):
     try:
         return import_string(val)
     except ImportError as e:
-        msg = "Could not import '{}' for API setting '{}'. {}: {}.".format(
-            val, setting_name, e.__class__.__name__, e
-        )
+        msg = f"Could not import '{val}' for API setting '{setting_name}'. {e.__class__.__name__}: {e}."
         raise ImportError(msg)
 
 

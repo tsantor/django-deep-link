@@ -91,21 +91,15 @@ class AppAdmin(admin.ModelAdmin):
     )
 
     def deep_link(self, obj):
-        return mark_safe(
-            f'<a href="{obj.get_absolute_url()}" target="_blank">Visit</a>'
-        )
+        return mark_safe(f'<a href="{obj.get_absolute_url()}" target="_blank">Visit</a>')
 
     def app_store_url(self, obj):
         if obj.get_app_store_url:
-            return mark_safe(
-                f'<a href="{obj.get_app_store_url()}" target="_blank">Visit</a>'
-            )
+            return mark_safe(f'<a href="{obj.get_app_store_url()}" target="_blank">Visit</a>')
 
     def play_store_url(self, obj):
         if obj.get_play_store_url:
-            return mark_safe(
-                f'<a href="{obj.get_play_store_url()}" target="_blank">Visit</a>'
-            )
+            return mark_safe(f'<a href="{obj.get_play_store_url()}" target="_blank">Visit</a>')
 
     class Media:
         js = ("django_deep_link/js/app.js",)
@@ -140,9 +134,7 @@ class VisitAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            "all": (
-                "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/default.min.css",
-            ),
+            "all": ("//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/default.min.css",),
         }
         js = (
             "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js",

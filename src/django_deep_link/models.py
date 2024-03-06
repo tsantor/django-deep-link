@@ -2,15 +2,7 @@ import uuid
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
-from django.db.models import (
-    CASCADE,
-    CharField,
-    ForeignKey,
-    JSONField,
-    Model,
-    URLField,
-    UUIDField,
-)
+from django.db.models import CASCADE, CharField, ForeignKey, JSONField, Model, URLField, UUIDField
 from django.db.models.fields import BooleanField
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -24,9 +16,7 @@ class iosMobile(Model):
     ios_url = URLField(
         _("iOS URL"),
         blank=True,
-        help_text=_(
-            "Custom app download/coming soon page. If blank, users will not be redirected."
-        ),
+        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -73,9 +63,7 @@ class AndroidMobile(Model):
     android_url = URLField(
         _("Android URL"),
         blank=True,
-        help_text=_(
-            "Custom app download/coming soon page. If blank, users will not be redirected."
-        ),
+        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -91,9 +79,7 @@ class AndroidMobile(Model):
     android_package_name = CharField(
         _("Android Package Name"),
         max_length=255,
-        help_text=_(
-            "i.e. - com.company.appname. If blank, users will be redirected to the Default URL"
-        ),
+        help_text=_("i.e. - com.company.appname. If blank, users will be redirected to the Default URL"),
         blank=True,
     )
 
@@ -179,9 +165,7 @@ class WindowsDesktop(Model):
             return self.windows_app_store_url
 
 
-class App(
-    iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model
-):
+class App(iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model):
     """A deep link app."""
 
     code = UUIDField(default=uuid.uuid4, editable=False)
@@ -190,9 +174,7 @@ class App(
 
     default_url = URLField(
         _("Default URL"),
-        help_text=_(
-            "Your fallback URL for platforms that do not have a specified redirect."
-        ),
+        help_text=_("Your fallback URL for platforms that do not have a specified redirect."),
     )
 
     class Meta:

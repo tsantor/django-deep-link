@@ -22,7 +22,7 @@ class AppDownloadView(DetailView):
 
     def get_context_data(self, **kwargs):
         # Get user agent data
-        ua_string = self.request.META.get("HTTP_USER_AGENT", None)
+        ua_string = self.request.headers.get("user-agent", None)
         user_agent = parse(ua_string)
         ua_data = ua_to_dict(user_agent) if user_agent else {}
 
