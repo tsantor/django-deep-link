@@ -1,16 +1,15 @@
 import uuid
-from zoneinfo import ZoneInfo
 
-from django.conf import settings
 from django.db.models import CASCADE, CharField, ForeignKey, JSONField, Model, URLField, UUIDField
 from django.db.models.fields import BooleanField
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from django_deep_link.mixins import TimeStampedModel
+from .mixins import IPAddressMixin, TimeStampedMixin, UserAgentMixin
 
 
-class iosMobile(Model):
+class iosMobileMixin(Model):
     """iOS Mobile related settings."""
 
     ios_url = URLField(
@@ -57,7 +56,7 @@ class iosMobile(Model):
             return self.ios_custom_url
 
 
-class AndroidMobile(Model):
+class AndroidMobileMixin(Model):
     """Android Mobile related settings."""
 
     android_url = URLField(
@@ -104,7 +103,7 @@ class AndroidMobile(Model):
             return self.android_custom_url
 
 
-class MacDesktop(Model):
+class MacDesktopMixin(Model):
     """Mac Desktop related settings."""
 
     mac_app = BooleanField(_("I have a Mac App"), default=False)
@@ -131,7 +130,7 @@ class MacDesktop(Model):
             return self.mac_app_store_url
 
 
-class WindowsDesktop(Model):
+class WindowsDesktopMixin(Model):
     """Windows Desktop related settings."""
 
     windows_app = BooleanField(_("I have a Windows App"), default=False)
@@ -165,7 +164,13 @@ class WindowsDesktop(Model):
             return self.windows_app_store_url
 
 
-class App(iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel, Model):
+class App(
+    iosMobileMixin,
+    AndroidMobileMixin,
+    MacDesktopMixin,
+    WindowsDesktopMixin,
+    TimeStampedMixin,
+):
     """A deep link app."""
 
     code = UUIDField(default=uuid.uuid4, editable=False)
@@ -183,26 +188,15 @@ class App(iosMobile, AndroidMobile, MacDesktop, WindowsDesktop, TimeStampedModel
         ]
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def get_absolute_url(self):
         return reverse("django-deep-link:deep-link", kwargs={"code": self.code})
 
 
-class Visit(TimeStampedModel):
+class Visit(UserAgentMixin, IPAddressMixin, TimeStampedMixin):
     """A visit is any time a user visits the URL."""
 
-    ip_address = CharField(blank=True, null=True, max_length=255, default="")
-    ip_data = JSONField(
-        _("IP geodata"),
-        blank=True,
-        default=dict,
-    )
-    ua_data = JSONField(
-        _("User agent data"),
-        blank=True,
-        default=dict,
-    )
     query_data = JSONField(
         _("Query data"),
         blank=True,
@@ -217,27 +211,7 @@ class Visit(TimeStampedModel):
             "view",
         )
 
-    @property
-    def browser(self):
-        data = self.ua_data.get("browser")
-        return data.get("family", None) if data else None
-
-    @property
-    def os(self):
-        data = self.ua_data.get("os")
-        return data.get("family", None) if data else None
-
-    @property
-    def device(self):
-        data = self.ua_data.get("device")
-        return data.get("family", None) if data else None
-
-    @property
-    def platform(self):
-        platform = self.ua_data.get("platform", None)
-        return platform.title() if platform else None
-
     def __str__(self):
-        tz = ZoneInfo(settings.TIME_ZONE)
+        tz = timezone.get_current_timezone()
         dt = self.created_at.astimezone(tz)
         return f"{dt.strftime('%a %b %d, %Y at %-I:%M:%S %p')} from {self.ip_address}"
