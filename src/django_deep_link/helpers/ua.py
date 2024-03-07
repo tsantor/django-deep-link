@@ -1,23 +1,36 @@
 from user_agents import parse
+from user_agents.parsers import UserAgent
+
+# def get_ua_platform(user_agent) -> str:
+#     """Get platform (mobile, tablet, pc)."""
+#     if user_agent.is_mobile:
+#         return "mobile"
+#     elif user_agent.is_tablet:
+#         return "tablet"
+#     elif user_agent.is_pc:
+#         return "pc"
+#     else:
+#         return "unknown"
 
 
-def get_ua_platform(user_agent) -> str:
+def get_ua_platform(user_agent: UserAgent) -> str:
     """Get platform (mobile, tablet, pc)."""
-    if user_agent.is_mobile:
-        return "mobile"
-    elif user_agent.is_tablet:
-        return "tablet"
-    elif user_agent.is_pc:
-        return "pc"
-    else:
-        return "unknown"
+    platforms = {
+        "mobile": user_agent.is_mobile,
+        "tablet": user_agent.is_tablet,
+        "pc": user_agent.is_pc,
+    }
+    return next(
+        (platform for platform, check in platforms.items() if check),
+        "unknown",
+    )
 
 
 def get_ua(request) -> str:
     return request.headers.get("user-agent", "")
 
 
-def get_ua_info(ua_string):
+def get_ua_info(ua_string: str) -> dict:
     """Return User Agent data as a dict."""
     user_agent = parse(ua_string)
     return {
@@ -28,39 +41,14 @@ def get_ua_info(ua_string):
     }
 
 
-def get_platform_bools(user_agent):
+def get_platform_bools(user_agent: UserAgent) -> dict:
     """Return if we're on a pc, mobile or tablet platform."""
 
-    is_pc_mac = False
-    is_pc_windows = False
-    is_mobile_ios = False
-    is_mobile_android = False
-    is_tablet_ios = False
-    is_tablet_android = False
-
-    if user_agent.is_mobile:
-        if user_agent.os.family == "iOS":
-            is_mobile_ios = True
-        elif user_agent.os.family == "Android":
-            is_mobile_android = True
-
-    elif user_agent.is_tablet:
-        if user_agent.os.family == "iOS":
-            is_tablet_ios = True
-        elif user_agent.os.family == "Android":
-            is_tablet_android = True
-
-    elif user_agent.is_pc:
-        if user_agent.os.family == "Mac OS X":
-            is_pc_mac = True
-        elif user_agent.os.family == "Windows":
-            is_pc_windows = True
-
     return {
-        "is_pc_mac": is_pc_mac,
-        "is_pc_windows": is_pc_windows,
-        "is_mobile_ios": is_mobile_ios,
-        "is_mobile_android": is_mobile_android,
-        "is_tablet_ios": is_tablet_ios,
-        "is_tablet_android": is_tablet_android,
+        "is_pc_mac": user_agent.is_pc and user_agent.os.family == "Mac OS X",
+        "is_pc_windows": user_agent.is_pc and user_agent.os.family == "Windows",
+        "is_mobile_ios": user_agent.is_mobile and user_agent.os.family == "iOS",
+        "is_mobile_android": user_agent.is_mobile and user_agent.os.family == "Android",
+        "is_tablet_ios": user_agent.is_tablet and user_agent.os.family == "iOS",
+        "is_tablet_android": user_agent.is_tablet and user_agent.os.family == "Android",
     }
