@@ -31,8 +31,6 @@ env:  ## Create virtual environment
 
 reqs:  ## Install requirements
 	python3 -m pip install -U pip && \
-		python3 -m pip install -r requirements_dev.txt && \
-		python3 -m pip install -r requirements_test.txt && \
 		python3 -m pip install -r requirements.txt && \
 		pre-commit install
 
