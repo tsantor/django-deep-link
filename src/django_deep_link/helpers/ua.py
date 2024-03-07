@@ -1,17 +1,6 @@
 from user_agents import parse
 from user_agents.parsers import UserAgent
 
-# def get_ua_platform(user_agent) -> str:
-#     """Get platform (mobile, tablet, pc)."""
-#     if user_agent.is_mobile:
-#         return "mobile"
-#     elif user_agent.is_tablet:
-#         return "tablet"
-#     elif user_agent.is_pc:
-#         return "pc"
-#     else:
-#         return "unknown"
-
 
 def get_ua_platform(user_agent: UserAgent) -> str:
     """Get platform (mobile, tablet, pc)."""
