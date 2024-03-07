@@ -1,9 +1,11 @@
 import functools
+import ipaddress
 import logging
 
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.http import HttpRequest
 from ipware import get_client_ip
 from requests.exceptions import JSONDecodeError
 
@@ -11,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 @functools.lru_cache(maxsize=1024)
-def get_ip_info(ip_address) -> dict:
+def get_ip_info(ip_address: str) -> dict:
     """
     Use 3rd party API to obtain Geolocation data from a given IP.
 
@@ -23,7 +25,7 @@ def get_ip_info(ip_address) -> dict:
         or an empty dictionary if the IP address is internal or the API response
         is not valid JSON.
     """
-    if not ip_address or ip_address in settings.INTERNAL_IPS or ip_address.startswith("192.168."):
+    if not ip_address or ip_address in settings.INTERNAL_IPS or is_private_ip(ip_address):
         logger.warning("IP address is internal: %s", ip_address)
         return {}
 
@@ -47,6 +49,15 @@ def get_ip_info(ip_address) -> dict:
         return {}
 
 
-def get_ip(request) -> str:
+def get_ip(request: HttpRequest) -> str:
     ip_address, _ = get_client_ip(request)
     return ip_address
+
+
+def is_private_ip(ip: str) -> bool:
+    """Check if an IP address is private."""
+    try:
+        return ipaddress.ip_address(ip).is_private
+    except ValueError:
+        logger.warning("Invalid IP address: %s", ip)
+        return False

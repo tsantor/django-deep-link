@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from user_agents import parse
 from user_agents.parsers import UserAgent
 
@@ -15,7 +16,7 @@ def get_ua_platform(user_agent: UserAgent) -> str:
     )
 
 
-def get_ua(request) -> str:
+def get_ua(request: HttpRequest) -> str:
     return request.headers.get("user-agent", "")
 
 
