@@ -1,17 +1,9 @@
 {
-  "editor.formatOnSave": true,
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
     }
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/__pycache__": true,
-    "**/.venv": true,
-    "**/.git": true,
-    "**/migrations": false
   }
 }

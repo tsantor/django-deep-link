@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from user_agents import parse
 
-from .helpers.ip import get_ip, get_ip_info
+from .helpers.ip import IPStackAPI, get_ip, get_ip_info
 from .helpers.ua import get_platform_bools, get_ua, get_ua_info
 from .helpers.url import get_querystring_as_dict
 from .models import App, Visit
@@ -29,7 +29,7 @@ class AppDownloadView(DetailView):
         Visit.objects.create(
             ip_address=ip,
             ua_data=get_ua_info(user_agent),
-            ip_data=get_ip_info(ip),
+            ip_data=get_ip_info(ip, IPStackAPI()),
             query_data=get_querystring_as_dict(self.request),
             deep_link=self.object,
         )

@@ -3,5 +3,17 @@ wheel==0.42.0
 build==1.1.1
 pre-commit==3.6.2
 
+# Bare minimum requirements to provide us similar env to Cookiecutter Django.
+django==4.2.9
+django-environ==0.11.2
+django-extensions
+
+# Project specific requirements
+ua-parser==0.18.0
+user-agents==2.2.0
+django-ipware==6.0.4
+requests==2.31.0
+bs4==0.0.2
+
 # X Studios
 pip-freezer==0.3.5
