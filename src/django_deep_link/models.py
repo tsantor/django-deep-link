@@ -51,8 +51,16 @@ class IOSMobileMixin(Model):
         help_text=_("A URL to fallback to when the app is not installed."),
     )
 
+    class Meta:
+        abstract = True
+
     def __str__(self):
         return self.ios_bundle_id
+
+    def get_app_store_url(self):
+        if self.ios_app and self.ios_bundle_id:
+            return f"https://apps.apple.com/app/{self.ios_bundle_id}"
+        return None
 
     def get_ios_redirect_url(self):
         """Return a redirect URL."""
@@ -99,12 +107,23 @@ class AndroidMobileMixin(Model):
         help_text=_("A URL to fallback to when the app is not installed."),
     )
 
+    class Meta:
+        abstract = True
+
     def __str__(self):
         return self.android_package_name
 
     def get_play_store_url(self):
         if self.android_app and self.android_package_name:
             return f"https://play.google.com/store/apps/details?id={self.android_package_name}"
+        return None
+
+    def get_android_redirect_url(self):
+        """Return a redirect URL."""
+        if not self.android_app and self.android_url:
+            return self.android_url
+        if self.android_app and self.android_custom_url:
+            return self.android_custom_url
         return None
 
 
