@@ -1,21 +1,31 @@
 import uuid
 
-from django.db.models import CASCADE, CharField, ForeignKey, JSONField, Model, URLField, UUIDField
+from django.db.models import CASCADE
+from django.db.models import CharField
+from django.db.models import ForeignKey
+from django.db.models import JSONField
+from django.db.models import Model
+from django.db.models import URLField
+from django.db.models import UUIDField
 from django.db.models.fields import BooleanField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from .mixins import IPAddressMixin, TimeStampedMixin, UserAgentMixin
+from .mixins import IPAddressMixin
+from .mixins import TimeStampedMixin
+from .mixins import UserAgentMixin
 
 
-class iosMobileMixin(Model):
+class IOSMobileMixin(Model):
     """iOS Mobile related settings."""
 
     ios_url = URLField(
         _("iOS URL"),
         blank=True,
-        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
+        help_text=_(
+            "Custom app download/coming soon page. If blank, users will not be redirected."
+        ),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -41,12 +51,8 @@ class iosMobileMixin(Model):
         help_text=_("A URL to fallback to when the app is not installed."),
     )
 
-    class Meta:
-        abstract = True
-
-    def get_app_store_url(self):
-        if self.ios_app and self.ios_bundle_id:
-            return f"https://apps.apple.com/app/{self.ios_bundle_id}"
+    def __str__(self):
+        return self.ios_bundle_id
 
     def get_ios_redirect_url(self):
         """Return a redirect URL."""
@@ -54,6 +60,7 @@ class iosMobileMixin(Model):
             return self.ios_url
         if self.ios_app and self.ios_custom_url:
             return self.ios_custom_url
+        return None
 
 
 class AndroidMobileMixin(Model):
@@ -62,7 +69,9 @@ class AndroidMobileMixin(Model):
     android_url = URLField(
         _("Android URL"),
         blank=True,
-        help_text=_("Custom app download/coming soon page. If blank, users will not be redirected."),
+        help_text=_(
+            "Custom app download/coming soon page. If blank, users will not be redirected."
+        ),
     )
 
     # If we have app, we hide the above field and use the below fields
@@ -78,7 +87,9 @@ class AndroidMobileMixin(Model):
     android_package_name = CharField(
         _("Android Package Name"),
         max_length=255,
-        help_text=_("i.e. - com.company.appname. If blank, users will be redirected to the Default URL"),
+        help_text=_(
+            "i.e. - com.company.appname. If blank, users will be redirected to the Default URL"
+        ),
         blank=True,
     )
 
@@ -88,19 +99,13 @@ class AndroidMobileMixin(Model):
         help_text=_("A URL to fallback to when the app is not installed."),
     )
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return self.android_package_name
 
     def get_play_store_url(self):
         if self.android_app and self.android_package_name:
             return f"https://play.google.com/store/apps/details?id={self.android_package_name}"
-
-    def get_android_redirect_url(self):
-        """Return a redirect URL."""
-        if not self.android_app and self.android_url:
-            return self.android_url
-        if self.android_app and self.android_custom_url:
-            return self.android_custom_url
+        return None
 
 
 class MacDesktopMixin(Model):
@@ -128,6 +133,7 @@ class MacDesktopMixin(Model):
     def get_mac_app_store_url(self):
         if self.mac_app and self.mac_app_store_url:
             return self.mac_app_store_url
+        return None
 
 
 class WindowsDesktopMixin(Model):
@@ -162,10 +168,11 @@ class WindowsDesktopMixin(Model):
     def get_windows_app_store_url(self):
         if self.windows_app and self.windows_app_store_url:
             return self.windows_app_store_url
+        return None
 
 
 class App(
-    iosMobileMixin,
+    IOSMobileMixin,
     AndroidMobileMixin,
     MacDesktopMixin,
     WindowsDesktopMixin,
@@ -179,7 +186,9 @@ class App(
 
     default_url = URLField(
         _("Default URL"),
-        help_text=_("Your fallback URL for platforms that do not have a specified redirect."),
+        help_text=_(
+            "Your fallback URL for platforms that do not have a specified redirect."
+        ),
     )
 
     class Meta:
