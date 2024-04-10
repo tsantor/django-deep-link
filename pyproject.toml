@@ -21,8 +21,15 @@ dynamic = ["version", "readme"]
 requires-python = ">=3.8"
 authors = [{ name = "Tim Santor", email = "tsantor@xstudios.com" }]
 
+[project.urls]
+# Homepage = "https://example.com"
+# Documentation = "https://readthedocs.org"
+Repository = "https://github.com/tsantor/django-deep-link.git"
+Issues = "https://github.com/tsantor/django-deep-link/issues"
+Changelog = "https://github.com/tsantor/django-deep-link/blob/master/HISTORY.md"
+
 [project.optional-dependencies]
-dev = ["black", "pre-commit"]
+dev = []
 
 [tool.setuptools.packages.find]
 # https://setuptools.pypa.io/en/latest/userguide/datafiles.html

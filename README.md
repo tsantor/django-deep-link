@@ -1,22 +1,24 @@
 # Django Deep Link
 
+![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)
+
+<!-- ![Code Style](https://img.shields.io/badge/code_style-ruff-black) -->
+
 ## Overview
 
 Simple app to get mobile app deep linking in place with basic tracking.
-
-## Documentation
-
-The full documentation is at ...
 
 ## Quickstart
 
 Install Django Deep Link::
 
 ```bash
-pip install django-deep-link
+python3 -m pip install django-deep-link
 ```
 
-Add it to your `INSTALLED_APPS`:
+### Settings
+
+To enable `django_deep_link` in your project you need to add it to `INSTALLED_APPS` in your projects `settings.py` file:
 
 ```python
 INSTALLED_APPS = (
@@ -41,7 +43,7 @@ urlpatterns = [
 
 ## Provide Your Own IP Geodata Handler
 
-```
+```python
 import requests
 from django.core.cache import cache
 
@@ -59,37 +61,42 @@ def get_ip_geodata(ip_address):
 
 The IP geodata handler must also be configured in your settings, using the `IP_GEO_HANDLER` setting key. For example:
 
-    DEEP_LINK = {
-        'IP_GEO_HANDLER': 'my_project.my_app.utils.get_ip_geodata'
-    }
+```python
+DEEP_LINK = {
+    'IP_GEO_HANDLER': 'my_project.my_app.utils.get_ip_geodata'
+}
+```
 
 If not specified, the `'IP_GEO_HANDLER'` setting defaults to the geodata provided by Deep Link, which leverages [IP Stack](https://ipstack.com/):
 
-    DEEP_LINK = {
-        'IP_GEO_HANDLER': 'django_deep_link.helpers.ip.get_ip_geodata'
-    }
+```python
+DEEP_LINK = {
+    'IP_GEO_HANDLER': 'django_deep_link.helpers.ip.get_ip_geodata'
+}
+```
 
-## Features
+## Local Development
 
-- TODO
+```bash
+make env
+make pip_install
+make migrations
+make migrate
+make superuser
+make serve
+```
 
-## Development
+or simply `make from_scratch`
 
-    make env
-    make reqs
-    pip install -e .
+- Visit `http://127.0.0.1:8000/admin/` for the Django Admin
 
-## Testing
+### Testing
 
-Project is at **76%** test coverage.
-
-    python3 runtests.py
-
-    python3 -m pytest -v
-    tox
-
-    # Run coverage
-    pytest --cov-report html --cov-report term --cov=tests/
+```bash
+make pytest
+make coverage
+make open_coverage
+```
 
 ## Issues
 
